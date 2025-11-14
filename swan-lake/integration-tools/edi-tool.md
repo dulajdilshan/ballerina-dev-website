@@ -38,13 +38,13 @@ As an illustrative example, consider the following EDI schema definition for a `
         {
             "code": "HDR",
             "tag" : "header",
-            "minOccurances": 1,
+            "minOccurrences": 1,
             "fields" : [{"tag": "code"}, {"tag" : "orderId"}, {"tag" : "organization"}, {"tag" : "date"}]
         },
         {
             "code": "ITM",
             "tag" : "items",
-            "maxOccurances" : -1,
+            "maxOccurrences" : -1,
             "fields" : [{"tag": "code"}, {"tag" : "item"}, {"tag" : "quantity", "dataType" : "int"}]
         }
     ]

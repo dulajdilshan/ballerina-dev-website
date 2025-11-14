@@ -5,19 +5,19 @@ url: 'https://github.com/ballerina-guides/integration-samples/blob/main/mysql-re
 ---
 ```
 public function main() returns error? {
-    stream<ProductRecieved, error?> streamOutput = mysql->query(
+    stream<ProductReceived, error?> streamOutput = mysql->query(
         `SELECT name, unitType, currencyISO, productId FROM products WHERE processed = false`);
-    record {|ProductRecieved value;|}|error? productRecieved = streamOutput.next();
-    while productRecieved !is error|() {
+    record {|ProductReceived value;|}|error? productReceived = streamOutput.next();
+    while productReceived !is error|() {
         Product product = {
-            Name: productRecieved.value.name,
-            Product_Unit__c: productRecieved.value.unitType,
-            CurrencyIsoCode: productRecieved.value.currencyISO
+            Name: productReceived.value.name,
+            Product_Unit__c: productReceived.value.unitType,
+            CurrencyIsoCode: productReceived.value.currencyISO
         };
         _ = check salesforce->create("Product2", product);
         _ = check mysql->execute(
-            `UPDATE products SET processed = true WHERE productId = ${productRecieved.value.productId}`);
-        productRecieved = streamOutput.next();
+            `UPDATE products SET processed = true WHERE productId = ${productReceived.value.productId}`);
+        productReceived = streamOutput.next();
     }
 }
 ```
